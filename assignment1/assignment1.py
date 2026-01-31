@@ -45,7 +45,7 @@ while True:
     contours, _ = cv.findContours(edges, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
     #edges: output of canny, retrexternal: only external contours, chain: store only endpoints
     
-    #adding BOUNDING BOXES to contours:
+    #adding BOUNDING BOXES to contours: INIVISIBLE OBJECT DETECTION
     #only need if i want to analyse moving edges after -- like object tracking etc.
     for contour in contours:
         if cv.contourArea(contour) > 1000:  #adjust threshold for detecting smaller/larger objects
@@ -53,16 +53,17 @@ while True:
             cv.rectangle(frame, (x, y), (x+w, y+h), (250, 229, 202), 2)
 
 
-    # Define a line (e.g., horizontal line at y=300)
+#TESTING ADDING ROBOTIC APPLICATION:
+    # define a trigger line - so when object passes it, my code can react..
     # line_y = 300
-    # cv.line(frame, (0, line_y), (frame.shape[1], line_y), (0, 0, 255), 2)  # Draw the line
+    # cv.line(frame, (0, line_y), (frame.shape[1], line_y), (0, 0, 255), 2)  #drawing the line
 
     # for contour in contours:
     #     if cv.contourArea(contour) > 1000:  # Filter small contours
     #         x, y, w, h = cv.boundingRect(contour)
     #         cv.rectangle(frame, (x, y), (x+w, y+h), (250, 229, 202), 2)
 
-    #     # Check if the center of the bounding box crosses the line
+    #     #checking to see if centre of bounding box crosses trigger line
     #         center_y = y + h // 2
     #         if center_y > line_y - 5 and center_y < line_y + 5:  # Allow small tolerance
     #             print("Object crossed the line!")
