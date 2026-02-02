@@ -24,7 +24,6 @@ while True:
     #applying bg sub to fg mask
     fgMask = backSub.apply(frame)
 
-
     #adding CANNY EDGE DETECTION to fgMask:
     #binary mask from bg sub - so dont need to make greyscale first
     #add blur to clean up noise
@@ -34,11 +33,9 @@ while True:
     #cleaning the mask --
     #fgMask = cv.GaussianBlur(fgMask, (3,3), 0) 
     fgMask = cv.medianBlur(fgMask, 5)
-    #fgMask = cv.threshold(fgMask, 127, 255, cv.THRESH_BINARY)[1] #makes sure mask is binary
 
     #edges only on moving parts
     edges = cv.Canny(fgMask, threshold1=10, threshold2=100)
-
 
     #adding CONTOURS:
     #makes continuous lines around edges detected
@@ -53,21 +50,22 @@ while True:
             cv.rectangle(frame, (x, y), (x+w, y+h), (250, 229, 202), 2)
 
 
-#TESTING ADDING ROBOTIC APPLICATION:
-    # define a trigger line - so when object passes it, my code can react..
-    # line_y = 300
-    # cv.line(frame, (0, line_y), (frame.shape[1], line_y), (0, 0, 255), 2)  #drawing the line
+# # TESTING ADDING ROBOTIC APPLICATION: 
+#     # define a trigger line - so when object passes it, my code can react..
+#     line_y = 300
+#     cv.line(frame, (0, line_y), (frame.shape[1], line_y), (0, 0, 255), 2)  #drawing the line
 
-    # for contour in contours:
-    #     if cv.contourArea(contour) > 1000:  # Filter small contours
-    #         x, y, w, h = cv.boundingRect(contour)
-    #         cv.rectangle(frame, (x, y), (x+w, y+h), (250, 229, 202), 2)
+#     for contour in contours:
+#         if cv.contourArea(contour) > 1000:  #filter small contours
+#             x, y, w, h = cv.boundingRect(contour)
+#             cv.rectangle(frame, (x, y), (x+w, y+h), (250, 229, 202), 2)
 
-    #     #checking to see if centre of bounding box crosses trigger line
-    #         center_y = y + h // 2
-    #         if center_y > line_y - 5 and center_y < line_y + 5:  # Allow small tolerance
-    #             print("Object crossed the line!")
+#         #checking to see if centre of bounding box crosses trigger line
+#             center_y = y + h // 2
+#             if center_y > line_y - 5 and center_y < line_y + 5:  #adding small tolerance
+#                 print("Object crossed the line!!")
 
+#     cv.line(frame, (0, line_y), (frame.shape[1], line_y), (0, 0, 255), 3)
 
 
     #showing effects
@@ -83,6 +81,6 @@ while True:
 capture.release()
 cv.destroyAllWindows()
 
-#i could add event detection -- adding a line to cross that creates sound or takes a picture etc.
-#causes a robotic output from motion detected - would the edge detection be for show
+#i could add event detection -- trigger line when crossed creates sound or takes a picture etc.
+#causes a robotic output from motion detected - would the edge detection be for show?
 
